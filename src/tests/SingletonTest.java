@@ -1,26 +1,69 @@
 package tests;
 
+import org.junit.jupiter.api.Test;
 import singleton.SingletonClassic;
-import singleton.SingletonClassicFix;
+import singleton.SingletonRunnable;
+import singleton.SingletonSubclassOne;
+import singleton.SingletonType;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SingletonTest {
-    public static void main(String[] args) {
-        //Pruebas con el Singleton sin areglar
-        /**
-        //Marca error del alcance del contructor
-        SingletonClassic singleton = new SingletonClassic();
-        System.out.println(singleton.addTo(3,4));
-        System.out.println(singleton.getInstancesCount());
-        //Error
-        new SingletonClassic();
-        System.out.println(singleton.getInstancesCount());
-        //Marca error del alcance de instancia
-        SingletonClassic.instance.getInstancesCount();
-         **/
 
-        //Pruebas con el Singleton arreglado
-        SingletonClassicFix singletonFix = SingletonClassicFix.getInstance();
-        System.out.println(singletonFix.addTo(3,4));
-        System.out.println(singletonFix.getInstancesCount());
+    @Test
+    public void testIllegalCreation() {
+        // The following line will not compile because the constructor is not visible.
+        // SingletonClassic singletonClassic = new SingletonClassic();
     }
+
+    @Test
+    public void testSingletonEquality() {
+        SingletonClassic firstsSingleton = SingletonClassic.getInstance(SingletonType.DEFAULT);
+        assertNotNull(firstsSingleton);
+        SingletonClassic secondSingleton = SingletonClassic.getInstance(SingletonType.DEFAULT);
+        assertNotNull(secondSingleton);
+
+        assertEquals(firstsSingleton, secondSingleton);
+    }
+
+    @Test
+    public void testSubclassesInstances() {
+        SingletonClassic singletonInstanceOne = SingletonClassic.getInstance(SingletonType.SUBCLASS_ONE);
+        SingletonClassic singletonInstanceTwo = SingletonClassic.getInstance(SingletonType.SUBCLASS_ONE);
+        assertEquals(singletonInstanceOne, singletonInstanceTwo);
+
+        SingletonClassic singletonInstanceThree = SingletonClassic.getInstance(SingletonType.SUBCLASS_TWO);
+        assertNotEquals(singletonInstanceOne, singletonInstanceThree);
+
+        SingletonClassic singletonInstanceFour = SingletonClassic.getInstance(SingletonType.SUBCLASS_ONE);
+        assertEquals(singletonInstanceTwo, singletonInstanceFour);
+    }
+
+    @Test
+    public void testCreatingSubclasses() {
+        SingletonClassic instanceOne = SingletonClassic.getInstance(SingletonType.SUBCLASS_ONE);
+        SingletonClassic instanceTwo = SingletonClassic.getInstance(SingletonType.SUBCLASS_TWO);
+        SingletonClassic instanceThree = SingletonClassic.getInstance(SingletonType.DEFAULT);
+        SingletonClassic instanceFour = SingletonClassic.getInstance(SingletonType.DEFAULT);
+        SingletonClassic instanceFive = SingletonClassic.getInstance(SingletonType.SUBCLASS_ONE);
+        SingletonClassic instanceSix = SingletonClassic.getInstance(SingletonType.DEFAULT);
+        SingletonClassic instanceSeven = SingletonClassic.getInstance(SingletonType.SUBCLASS_ONE);
+
+        assertEquals(instanceOne.getInstancesCount(), instanceSeven.getInstancesCount());
+        assertEquals(instanceSix.getInstancesCount(), 3);
+    }
+
+    @Test
+    public void testSingletonThreads(){
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        for(int i = 0; i < 3; i++)
+            executorService.execute(new SingletonRunnable());
+        executorService.shutdown();
+        while (!executorService.isTerminated()){}
+        System.out.println("Todos los hilos terminados");
+    }
+
 }

@@ -4,21 +4,39 @@ public class SingletonClassic {
     static SingletonClassic instance = null;
     private static int instancesCount = 0;
 
-    SingletonClassic() {
+    private SingletonClassic() {
         System.out.println("\n Se creó una instancia ");
         instancesCount++;
     }
 
-    public int addTo(int x, int y){
-        return x + y;
+    protected SingletonClassic(String message) {
+        System.out.println("\n Se creó una instancia desde protected: " + message);
+        instancesCount++;
     }
 
-    public static SingletonClassic getInstance() {
-        if(instance == null) instance = new SingletonClassic();
+    private static SingletonClassic getInstance() {
+        if (instance == null) instance = new SingletonClassic();
         return instance;
     }
 
-    public int getInstancesCount(){
+    public static synchronized SingletonClassic getInstance(SingletonType type) {
+        return
+                switch (type) {
+                    case SUBCLASS_ONE -> SingletonSubclassOne.getInstance();
+                    case SUBCLASS_TWO -> SingletonSubclassTwo.getInstance();
+                    default -> SingletonClassic.getInstance();
+                };
+    }
+
+    public int addTo(int x, int y) {
+        return x + y;
+    }
+
+    public int getInstancesCount() {
         return instancesCount;
+    }
+
+    public void getMessage() {
+        System.out.println("Hello from SingletonClassic");
     }
 }
