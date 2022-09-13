@@ -16,7 +16,13 @@ public class SingletonTest {
     @Test
     public void testIllegalCreation() {
         // The following line will not compile because the constructor is not visible.
-        // SingletonClassic singletonClassic = new SingletonClassic();
+        //SingletonClassic singletonClassic = new SingletonClassic();
+    }
+
+    @Test
+    public void testOneSingletonInstance(){
+        SingletonClassic sigleton = SingletonClassic.getInstance(SingletonType.DEFAULT);
+        System.out.println("Instances count: " + sigleton.getInstancesCount());
     }
 
     @Test
@@ -27,6 +33,13 @@ public class SingletonTest {
         assertNotNull(secondSingleton);
 
         assertEquals(firstsSingleton, secondSingleton);
+        System.out.println("Instances count: " + firstsSingleton.getInstancesCount());
+    }
+
+    @Test
+    public void testSingletonSubclassesInstancing(){
+        SingletonClassic singletonInstanceOne = SingletonSubclassOne.getInstance();
+        System.out.println("Instances count: " + singletonInstanceOne.getInstancesCount());
     }
 
     @Test
