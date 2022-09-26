@@ -1,6 +1,5 @@
 package decorator.processor.text;
 
-import javax.naming.OperationNotSupportedException;
 
 public class AlignDecorator extends Decorator{
 
