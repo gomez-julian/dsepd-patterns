@@ -1,4 +1,4 @@
-package decorator.processor.text;
+package decorator.text;
 
 public class ConcreteText extends Text {
     public ConcreteText(String text) {

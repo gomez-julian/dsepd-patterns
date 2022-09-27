@@ -1,4 +1,4 @@
-package decorator.processor.text;
+package decorator.text;
 
 public abstract class Decorator extends Text{
     protected Text iText;

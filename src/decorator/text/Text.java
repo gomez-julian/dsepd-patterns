@@ -1,4 +1,4 @@
-package decorator.processor.text;
+package decorator.text;
 
 public abstract class Text {
     protected String text;

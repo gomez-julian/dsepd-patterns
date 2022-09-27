@@ -1,9 +1,9 @@
 package decorator.test;
 
-import decorator.processor.text.*;
+import decorator.text.*;
 import org.junit.jupiter.api.Test;
 
-public class DecoratorTest {
+public class TextDecoratorTest {
 
     @Test
     public void simpleIntegrationTest(){
