@@ -31,14 +31,14 @@ public abstract class AbstractPolynomial {
     public String toString(){
         String string = "";
         for(Term term: terms) {
-            String sign = (term.isPositive()) ? " +" : " -";
+            String sign = (term.getCoefficient() >= 0) ? " +" : " -";
             if(term.getExponent() == 0)
                 string = string
-                        + ((string.length() != 0)?sign:"")
+                        + sign
                         + Math.abs(term.getCoefficient());
             else
                 string = string
-                        + ((string.length() != 0 || !term.isPositive())?sign:"")
+                        + sign
                         + Math.abs(term.getCoefficient())
                         + "x"
                         + getExponentString(term.getExponent());

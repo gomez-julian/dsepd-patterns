@@ -15,14 +15,11 @@ public class ConcreteDecoratorSimplifier extends AbstractDecoratorPolynomial{
         Vector<Term> simplifiedTerms = new Vector<>();
         int [] coefficientCount = new int[10]; //Actually support only to 0-9 exponent.
         for(Term term: terms)
-            if(term.isPositive())
-                coefficientCount[term.getExponent()] += term.getCoefficient();
-            else
-                coefficientCount[term.getExponent()] -= term.getCoefficient();
+            coefficientCount[term.getExponent()] = coefficientCount[term.getExponent()] + term.getCoefficient();
         for(int i=9; i>=0; i--) {
             int coefficient = coefficientCount[i];
             if(coefficient != 0)
-                simplifiedTerms.add(new Term(coefficient, i, coefficient > 0));
+                simplifiedTerms.add(new Term(coefficient, i));
         }
         this.setTerms(simplifiedTerms);
         return simplifiedTerms;

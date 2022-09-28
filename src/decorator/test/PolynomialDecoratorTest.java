@@ -10,9 +10,8 @@ public class PolynomialDecoratorTest {
     private ConcretePolynomialEquation generateRandomFullPolynomial(int maxExponent){
         ConcretePolynomialEquation polynomial = new ConcretePolynomialEquation();
 
-        Random random = new Random();
         for(int i=0; i<maxExponent + 1; i++)
-            polynomial.addTerm(new Term((int)(Math.random()*9) + 1, i, random.nextBoolean()));
+            polynomial.addTerm(new Term((int) (Math.random()*(21)-10), i));
         return  polynomial;
     }
 
@@ -37,9 +36,8 @@ public class PolynomialDecoratorTest {
     public void testPolynomialSimplification(){
         AbstractPolynomial polynomial = generateRandomFullPolynomial(5);
 
-        Random random = new Random();
         for(int i=0; i<5 + 1; i++)
-            polynomial.addTerm(new Term((int)(Math.random()*9) + 1, i, random.nextBoolean()));
+            polynomial.addTerm(new Term((int)(Math.random()*9) + 1, i));
 
         System.out.println("Polynomial before: " + polynomial);
         polynomial = new ConcreteDecoratorSimplifier(polynomial);
@@ -48,7 +46,10 @@ public class PolynomialDecoratorTest {
 
     @Test
     public void testResolutionDecorator(){
-        AbstractPolynomial polynomial = generateRandomFullPolynomial(5);
+        AbstractPolynomial polynomial = new ConcretePolynomialEquation();
+        polynomial.addTerm(new Term(1,2));
+        polynomial.addTerm(new Term(2,1));
+        polynomial.addTerm(new Term(-8,0));
         polynomial = new ConcreteDecoratorResolution(polynomial);
     }
 }
